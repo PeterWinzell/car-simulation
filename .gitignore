@@ -1,33 +1,50 @@
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
 
-# Precompiled Headers
-*.gch
-*.pch
+# Eclipse Core
+.project
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+# External tool builders
+.externalToolBuilders/
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+# Locally stored "Eclipse launch configurations"
+*.launch
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
 
-# Debug files
-*.dSYM/
-*.su
+# CDT-specific (C/C++ Development Tooling)
+.cproject
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# Java annotation processor (APT)
+.factorypath
+
+# PDT-specific (PHP Development Tools)
+.buildpath
+
+# sbteclipse plugin
+.target
+
+# Tern plugin
+.tern-project
+
+# TeXlipse plugin
+.texlipse
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
