@@ -1,3 +1,28 @@
+/*
+MIT License
+
+Copyright (c) [2017] [Johan Strand]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+
 #include "clienttest.h"
 #include <QString>
 #include <QDomDocument>
@@ -77,8 +102,8 @@ void ClientTest::getSpeedAndRpm()
                     <Event Name=\"EstablishConnection\"/>\r \
                   </Message>\r";
 
-     bool ready;
-     QString xml;
+     bool ready; //used for while loop and reading continously
+     QString xml; //used for storing the retrieved XML data
 
     //Initiate socket and connect to simulation server (note that IP needs to be changed to match your server IP)
     socket = new QTcpSocket(this);
@@ -90,17 +115,18 @@ void ClientTest::getSpeedAndRpm()
     if(socket->waitForConnected(2000))
     {
         qDebug() << "Connected!";
-        socket->write(xmlMsgSubscribe);
-        socket->waitForBytesWritten(2000);
-        ready=socket->waitForReadyRead(500);
+
+        socket->write(xmlMsgSubscribe); //Write xml message to server
+        socket->waitForBytesWritten(2000);//Wait at most 2s for the write to finish completly
+        ready=true; //Set to true to enter while loop
 
         while(ready){
-            ready=socket->waitForReadyRead(500);
+            ready=socket->waitForReadyRead(500); //Wait for response from server
 
             if(ready)
             {
-                xml=socket->readAll();
-                xmlParser(xml); //<speed> <actualRpm>
+                xml=socket->readAll(); //If data is ready read all data
+                xmlParser(xml); //parse out <speed> and <actualRpm> and print the values using qdebug
             }
             else
             {
@@ -114,11 +140,16 @@ void ClientTest::getSpeedAndRpm()
     socket->close();
 }
 
+/*
+ *Helper function to parse and print the speed and rpm values received from the server.
+ */
 void ClientTest::xmlParser(QString xmlData) {
 
     //Get your xml into xmlText(you can use QString instead og QByteArray)
     QDomDocument doc;
     doc.setContent(xmlData);
+
+    //Parse and print speed and rpm
     QDomNodeList speed=doc.elementsByTagName("speed");
     QDomNodeList rpm=doc.elementsByTagName("actualRpm");
     qDebug() << "Speed: "+speed.at(0).toElement().text()+" Rpm: "+rpm.at(0).toElement().text();
