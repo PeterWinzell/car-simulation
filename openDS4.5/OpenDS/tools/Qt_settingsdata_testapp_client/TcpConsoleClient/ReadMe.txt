@@ -44,5 +44,11 @@ Getting started
 *If successfull you should see some debug information about connection status and values from the simulation server in a console window or on
 your raspberry pi.
 
-Note: the default console configured in Qt creator does not seem to work, if so then you can resolve it by changing in 
+Note1: The default console configured in Qt creator does not seem to work, if so then you can resolve it by changing in 
 Tools->options, Environment/System-tab change "Terminal" to the "xterm -e".
+
+Note2: OpenDS/tools/settingscontroller_client/examples is a good starting point to check how to build XML messages for retrieving different data. 
+All the values you can subscribe or do get on can be found in "APIData.java" in the source code for the OpenDS simulator.
+
+Note3: OpenDS/tools/OpenDS Documentation.pdf contains some usefull information on how to configure the simulator, but does not contain any detailed
+information about the server.
