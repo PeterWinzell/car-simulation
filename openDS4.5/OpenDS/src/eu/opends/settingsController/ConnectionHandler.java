@@ -106,7 +106,9 @@ public class ConnectionHandler extends Thread
 	        			 try
 	        			 {
 	        				 String line = r.readLine();
-		        		 
+	        				 
+	        				 System.out.println("DataInputStream: "+line); //JS
+	        				 
 	        				 if(line == null){
 	        					 interrupt();
 	        					 System.out.println("Connection closed by client.");
