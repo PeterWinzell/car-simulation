@@ -1,21 +1,9 @@
-QT += core
-QT -= gui
-QT += network
-QT += xml
+TEMPLATE = subdirs
 
-CONFIG += c++11
+SUBDIRS += src
 
-TARGET = TcpConsoleClient
-CONFIG += console
-CONFIG -= app_bundle
+CONFIG(debug, debug|release) {
+    SUBDIRS += tests
+}
 
-TEMPLATE = app
-
-SOURCES += main.cpp \
-    clienttest.cpp
-
-HEADERS += \
-    clienttest.h
-
-target.path = /opt/build-TcpConsoleClient-GDP_SDK_for_RaspberryPi_2_3-Debug
-INSTALLS += target
+<
