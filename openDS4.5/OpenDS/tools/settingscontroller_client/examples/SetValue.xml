@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Message>
+  <Event Name="SetValue">/root/thisVehicle/interior/cockpit/pedals/brakePedal/Properties/pressedState</Event>
+  <Event Name="SetValue">/root/thisVehicle/exterior/lights/Properties/headlights</Event>
+</Message>

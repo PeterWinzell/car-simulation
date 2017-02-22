@@ -672,6 +672,21 @@ public abstract class Car
 			lightIntensity = 0;
 	}
 	
+	//20170221 JS: Test controlling breaks
+	public void toggleBrake() 
+	{
+		if(brakePedalIntensity == 0)
+		{
+			brakePedalIntensity = 1;
+			//SpeedControlCenter.stopBrakeTimer();
+		}
+		else
+		{
+			brakePedalIntensity = 0;
+			//SpeedControlCenter.stopBrakeTimer();
+		}
+	}
+	
 	
 	public boolean isLightOn()
 	{

@@ -142,6 +142,24 @@ public class APIData {
 		dataMap.put("/root/thisVehicle/physicalAttributes/Properties/acceleration", init);
 	}
 	
+	//20170221 JS: created for setting value in simulated car
+	public String setValue(String var)
+	{
+		String value = "";
+		
+		if(var.equals("/root/thisVehicle/interior/cockpit/pedals/brakePedal/Properties/pressedState")){
+			car.toggleBrake();			
+			float brakePedalPress = car.getBrakePedalIntensity(); // in %
+			value = String.valueOf(brakePedalPress);
+		}else if(var.equals("/root/thisVehicle/exterior/lights/Properties/headlights")){
+			car.toggleLight();
+			String lightState = car.getLightState();
+			value = lightState;			
+		}
+		
+		return value;
+	}
+	
 	private String getValue(String var){
 		String value = "";
 		
