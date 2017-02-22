@@ -107,7 +107,7 @@ public class ConnectionHandler extends Thread
 	        			 {
 	        				 String line = r.readLine();
 	        				 
-	        				 System.out.println("DataInputStream: "+line); //JS
+	        				 System.out.println("DataInputStream: "+line); //20170221 JS: debugging output
 	        				 
 	        				 if(line == null){
 	        					 interrupt();
@@ -172,6 +172,20 @@ public class ConnectionHandler extends Thread
 		}			
 	}
 	
+	//20170221 JS: Added set function for setting individual values
+	public void setValue(String[] xmlValues){
+		//intervalLock.lock();
+		try{
+			for(int j=0;j<xmlValues.length;j++)
+			{
+				data.setValue(xmlValues[j]);
+			}
+		}
+		finally{
+			//intervalLock.unlock();
+		}			
+	}
+	
 	private void parseXML(String xml) {
 		try {						
 			Document doc = loadXMLFromString(xml);			
@@ -214,6 +228,12 @@ public class ConnectionHandler extends Thread
 				}
 				else if(eventName.equals("GetValue")){				
 					String[] val = new String[]{nodes.item(i).getTextContent()};
+					response += "<Event Name=\""+val[0]+"\">\n" + data.getValues(val, false) + "\n</Event>";
+				}
+				else if(eventName.equals("SetValue")){ //20170221 JS: Added SetValue tag in parsing to handle possibility to set individual value				
+					String[] val = new String[]{nodes.item(i).getTextContent()};
+					setValue(val);
+					
 					response += "<Event Name=\""+val[0]+"\">\n" + data.getValues(val, false) + "\n</Event>";
 				}
 				else if(eventName.equals("GetUpdateInterval")){
