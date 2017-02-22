@@ -21,19 +21,31 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-#include <QCoreApplication>
-#include <clienttest.h>
-int main(int argc, char *argv[])
+#ifndef CLIENTTEST_H
+#define CLIENTTEST_H
+
+#include <QObject>
+#include <QTcpSocket>
+#include <QDebug>
+
+class ClientTest : public QObject
 {
-    QCoreApplication a(argc, argv);
+    Q_OBJECT
+public:
+    explicit ClientTest(QObject *parent = 0);
 
-    //Test tries to connect and get one set of data
-    //ClientTest cTest;
-    //cTest.Test();
+    void Test();
+    bool printSpeedAndRpm();
 
-    //Create a new test instance and call function to start reading speed and rpm continously
-    ClientTest cGetData;
-    cGetData.getSpeedAndRpm();
 
-    return a.exec();
-}
+signals:
+
+public slots:
+
+private:
+    QTcpSocket *socket;
+    void xmlParser(QString);
+
+};
+
+#endif // CLIENTTEST_H

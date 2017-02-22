@@ -89,7 +89,7 @@ void ClientTest::Test()
 Test function for subscribing for vehicle speed and RPM with a update intervall of 200ms.
 NOTE: The IP-address to your openDS server needs to be added and you might need to allow connection to the OpenDS server in you firewall.
 */
-void ClientTest::getSpeedAndRpm()
+bool ClientTest::printSpeedAndRpm()
 {
 
     //xml message for starting subscribing to RPM and speed
@@ -102,8 +102,9 @@ void ClientTest::getSpeedAndRpm()
                     <Event Name=\"EstablishConnection\"/>\r \
                   </Message>\r";
 
-     bool ready; //used for while loop and reading continously
-     QString xml; //used for storing the retrieved XML data
+    bool ready; //used for while loop and reading continously
+    bool result;
+    QString xml; //used for storing the retrieved XML data
 
     //Initiate socket and connect to simulation server (note that IP needs to be changed to match your server IP)
     socket = new QTcpSocket(this);
@@ -115,6 +116,7 @@ void ClientTest::getSpeedAndRpm()
     if(socket->waitForConnected(2000))
     {
         qDebug() << "Connected!";
+        result=true;
 
         socket->write(xmlMsgSubscribe); //Write xml message to server
         socket->waitForBytesWritten(2000);//Wait at most 2s for the write to finish completly
@@ -131,13 +133,20 @@ void ClientTest::getSpeedAndRpm()
             else
             {
                 qDebug() << "To fast! Not enought time to read data! Raise the waitForReadyRead() time or set update interval in request to higher value.\r";
+                result=false;
+                break;
             }
         }
 
 
+    }else
+    {
+        result=false;
     }
     qDebug() << "Closing connection!";
     socket->close();
+
+    return result;
 }
 
 /*
