@@ -12,6 +12,9 @@ local.properties
 .loadpath
 .recommenders
 
+# qtcreator generated files
+*.pro.user*
+
 # Eclipse Core
 .project
 
