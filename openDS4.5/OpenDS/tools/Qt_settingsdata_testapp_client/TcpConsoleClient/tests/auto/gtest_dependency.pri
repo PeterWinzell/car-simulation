@@ -1,4 +1,4 @@
-GOOGLETEST_DIR = $$PWD/../../../../../../../googletest
+GOOGLETEST_DIR = $$PWD/../../../../../../../../../googletest
 
 isEmpty(GOOGLETEST_DIR):GOOGLETEST_DIR=$$(GOOGLETEST_DIR)
 
