@@ -24,8 +24,7 @@ SOFTWARE.
 
 
 #include "clienttest.h"
-#include <QString>
-#include <QDomDocument>
+
 
 ClientTest::ClientTest(QObject *parent) :
     QObject(parent)
@@ -59,10 +58,11 @@ void ClientTest::Test()
         qDebug() << "waiting for writing (timeout 1s): " << write;
         if(socket->waitForBytesWritten(1000))
         {
-          qDebug() << "Write succeded!";
-        }else
+            qDebug() << "Write succeded!";
+        }
+        else
         {
-          qDebug() << "Write failed!";
+            qDebug() << "Write failed!";
         }
 
         //Wait for data to be ready to read or timeout
@@ -70,7 +70,8 @@ void ClientTest::Test()
         {
             qDebug() << "Reading: " << socket->bytesAvailable();
             qDebug() << socket->readAll();
-        }else
+        }
+        else
         {
             qDebug() << "Reading failed (timed out at 3s): " << socket->bytesAvailable();
         }
@@ -82,7 +83,6 @@ void ClientTest::Test()
     {
         qDebug() << "Not connected! Timed out after 3s!";
     }
-
 }
 
 /*
@@ -122,7 +122,8 @@ bool ClientTest::printSpeedAndRpm()
         socket->waitForBytesWritten(2000);//Wait at most 2s for the write to finish completly
         ready=true; //Set to true to enter while loop
 
-        while(ready){
+        while(ready)
+        {
             ready=socket->waitForReadyRead(500); //Wait for response from server
 
             if(ready)
@@ -139,7 +140,8 @@ bool ClientTest::printSpeedAndRpm()
         }
 
 
-    }else
+    }
+    else
     {
         result=false;
     }
@@ -152,7 +154,8 @@ bool ClientTest::printSpeedAndRpm()
 /*
  *Helper function to parse and print the speed and rpm values received from the server.
  */
-void ClientTest::xmlParser(QString xmlData) {
+void ClientTest::xmlParser(QString xmlData)
+{
 
     //Get your xml into xmlText(you can use QString instead og QByteArray)
     QDomDocument doc;
@@ -164,6 +167,51 @@ void ClientTest::xmlParser(QString xmlData) {
     qDebug() << "Speed: "+speed.at(0).toElement().text()+" Rpm: "+rpm.at(0).toElement().text();
 }
 
+/*
+ *Helper function that parse xml data and returns the value for the first requested available xml tag (QString tag)
+ */
+QString ClientTest::xmlParser(QString xmlData, QString tag)
+{
+
+    //Get your xml into xmlText(you can use QString instead og QByteArray)
+    QDomDocument doc;
+    QString res;
+    doc.setContent(xmlData);
+
+    //Parse the input "tag"
+    QDomNodeList tagValue=doc.elementsByTagName(tag);
+
+
+    if(tagValue.count()==0)
+    {
+        res="Element not found!";
+    }
+    else
+    {
+        res=tagValue.at(0).toElement().text();
+    }
+
+    return res;
+}
+
+bool ClientTest::connectToSimServer(QString ip, int port)
+{
+    bool ret=false;
+    //Initiate socket and connect to simulation server (note that IP needs to be changed to match your server IP)
+    socket = new QTcpSocket(this);
+    socket->connectToHost(ip, port);
+
+    if(socket->waitForConnected(3000))
+    {
+        ret=true;
+    }
+    else
+    {
+        ret=false;
+    }
+
+    return ret;
+}
 
 
 

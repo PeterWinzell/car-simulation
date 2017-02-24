@@ -23,6 +23,8 @@ SOFTWARE.
 */
 #include <QCoreApplication>
 #include <clienttest.h>
+#include <qtasyncclient.h>
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -32,8 +34,11 @@ int main(int argc, char *argv[])
     //cTest.Test();
 
     //Create a new test instance and call function to start reading speed and rpm continously
+
     ClientTest cGetData;
     cGetData.printSpeedAndRpm();
 
+    //QtAsyncClient client;
+    //client.connect();
     return a.exec();
 }

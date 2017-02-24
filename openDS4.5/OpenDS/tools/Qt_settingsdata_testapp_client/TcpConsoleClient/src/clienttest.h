@@ -27,6 +27,8 @@ SOFTWARE.
 #include <QObject>
 #include <QTcpSocket>
 #include <QDebug>
+#include <QString>
+#include <QDomDocument>
 
 class ClientTest : public QObject
 {
@@ -45,6 +47,10 @@ public slots:
 private:
     QTcpSocket *socket;
     void xmlParser(QString);
+    QString xmlParser(QString xmlData, QString tag);
+    bool connectToSimServer(QString ip, int port);
+
+
 
 };
 

@@ -10,10 +10,12 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES += main.cpp \
-    clienttest.cpp
+    clienttest.cpp \
+    qtasyncclient.cpp
 
 HEADERS += \
-    clienttest.h
+    clienttest.h \
+    qtasyncclient.h
 
 target.path = /opt/build-TcpConsoleClient-GDP_SDK_for_RaspberryPi_2_3-Debug
 INSTALLS += target
