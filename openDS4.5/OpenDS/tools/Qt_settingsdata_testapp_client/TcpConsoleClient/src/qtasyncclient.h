@@ -15,17 +15,15 @@ public:
     explicit QtAsyncClient(QWidget *parent = Q_NULLPTR);
 
 private slots:
-    bool sendXmlReq(QString msg);
-    QString recieveResponse();
+    void sendXmlReq(QString msg);
+    void recieveResponse();
     void displayError(QAbstractSocket::SocketError socketError);
-
+    void sessionOpened();
 
 private:
     QTcpSocket *tcpSocket;
     QDataStream inData;
     QString currentXml;
-
-    QNetworkSession *networkSession;
 
     QString xmlParser(QString xmlData, QString tag);
     void connectToSimServer(QString IP, int port);

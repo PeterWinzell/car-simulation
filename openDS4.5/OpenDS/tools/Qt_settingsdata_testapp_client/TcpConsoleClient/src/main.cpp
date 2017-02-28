@@ -23,7 +23,7 @@ SOFTWARE.
 */
 #include <QCoreApplication>
 #include <clienttest.h>
-#include <qtasyncclient.h>
+#include "qtasyncclient.h"
 
 int main(int argc, char *argv[])
 {
