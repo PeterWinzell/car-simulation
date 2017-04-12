@@ -39,6 +39,7 @@ import org.w3c.dom.NodeList;
 import com.jme3.math.FastMath;
 
 import eu.opends.car.Car;
+import eu.opends.car.SteeringCar;
 import eu.opends.drivingTask.settings.SettingsLoader.Setting;
 import eu.opends.main.SimulationDefaults;
 import eu.opends.main.Simulator;
@@ -73,6 +74,16 @@ public class APIData {
 						"<steeringWheel>"+ 
 							"<Properties><steerAngle></steerAngle></Properties>"+ 
 						"</steeringWheel>"+ 
+						"<cruiseControl>"+ 	//DN 20170411: Add handbrake and cruise control
+							"<Properties>"+
+								"<cruiseControlActivated></cruiseControlActivated>"+
+								"<cruiseControlIncrease></cruiseControlIncrease>"+
+								"<cruiseControlDecrease></cruiseControlDecrease>"+
+							"</Properties>"+ 
+						"</cruiseControl>"+
+						"<handBrake>"+
+							"<Properties><handBrakeOn></handBrakeOn></Properties>"+ 
+						"</handBrake>"+ 
 					"</cockpit>"+ 
 				"</interior>"+ 
 				"<exterior>"+ 
@@ -120,6 +131,12 @@ public class APIData {
 		dataMap.put("/root/thisVehicle/interior/cockpit/pedals/brakePedal/Properties/pressedState", init);
 		dataMap.put("/root/thisVehicle/interior/cockpit/steeringWheel/Properties/steerAngle", init);
 		
+		//DN 20170411: Add handbrake and cruise control
+		dataMap.put("/root/thisVehicle/interior/cockpit/cruiseControl/Properties/cruiseControlActivated", init);
+		dataMap.put("/root/thisVehicle/interior/cockpit/cruiseControl/Properties/cruiseControlIncrease", init);
+		dataMap.put("/root/thisVehicle/interior/cockpit/cruiseControl/Properties/cruiseControlDecrease", init);	
+		dataMap.put("/root/thisVehicle/interior/cockpit/handBrake/Properties/handBrakeOn", init);
+
 		//exterior
 		dataMap.put("/root/thisVehicle/exterior/lights/Properties/headlights", init);
 		dataMap.put("/root/thisVehicle/exterior/gearUnit/Properties/currentGear", init);
@@ -143,7 +160,7 @@ public class APIData {
 	}
 	
 	//20170221 JS: created for setting value in simulated car
-	public String setValue(String var)
+	public String setValue(String var, String newVal)
 	{
 		String value = "";
 		
@@ -154,12 +171,25 @@ public class APIData {
 		}else if(var.equals("/root/thisVehicle/exterior/lights/Properties/headlights")){
 			car.toggleLight();
 			String lightState = car.getLightState();
-			value = lightState;			
+			value = lightState;	
 		}
-		
+		//DN 20170411: Add handbrake and cruise control
+		else if(var.equals("/root/thisVehicle/interior/cockpit/handBrake/Properties/handBrakeOn")){
+			((SteeringCar) car).applyHandBrake(Boolean.parseBoolean(newVal));
+			value = Boolean.toString(((SteeringCar) car).isHandBrakeApplied());
+		}else if(var.equals("/root/thisVehicle/interior/cockpit/cruiseControl/Properties/cruiseControlActivated")){
+			((SteeringCar) car).setCruiseControl(Boolean.parseBoolean(newVal));
+			value = Boolean.toString(((SteeringCar) car).isCruiseControl());
+		}else if(var.equals("/root/thisVehicle/interior/cockpit/cruiseControl/Properties/cruiseControlIncrease")){
+			((SteeringCar) car).increaseCruiseControl(Integer.parseInt(newVal));
+			value = Boolean.toString(((SteeringCar) car).isCruiseControl());
+		}else if(var.equals("/root/thisVehicle/interior/cockpit/cruiseControl/Properties/cruiseControlDecrease")){
+			((SteeringCar) car).decreaseCruiseControl(Integer.parseInt(newVal));
+			value = Boolean.toString(((SteeringCar) car).isCruiseControl());
+		}
 		return value;
 	}
-	
+
 	private String getValue(String var){
 		String value = "";
 		
@@ -179,7 +209,21 @@ public class APIData {
 			
 			value = String.valueOf(steeringAngle);					
 		}
-		
+
+		//DN 20170411: Add handbrake and cruise control
+		else if(var.equals("/root/thisVehicle/interior/cockpit/handBrake/Properties/handBrakeOn")){
+			value = Boolean.toString(((SteeringCar) car).isHandBrakeApplied());
+		}
+		else if(var.equals("/root/thisVehicle/interior/cockpit/cruiseControl/Properties/cruiseControlActivated")){
+			value = Boolean.toString(((SteeringCar) car).isCruiseControl());
+		}	
+		else if(var.equals("/root/thisVehicle/interior/cockpit/cruiseControl/Properties/cruiseControlIncrease")){
+			value = Boolean.toString(((SteeringCar) car).isCruiseControl());
+		}
+		else if(var.equals("/root/thisVehicle/interior/cockpit/cruiseControl/Properties/cruiseControlDecrease")){
+			value = Boolean.toString(((SteeringCar) car).isCruiseControl());
+		}
+
 		//exterior
 		else if(var.equals("/root/thisVehicle/exterior/lights/Properties/headlights")){
 			String lightState = car.getLightState();

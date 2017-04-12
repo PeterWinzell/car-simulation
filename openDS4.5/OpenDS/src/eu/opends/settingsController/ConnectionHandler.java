@@ -173,12 +173,13 @@ public class ConnectionHandler extends Thread
 	}
 	
 	//20170221 JS: Added set function for setting individual values
-	public void setValue(String[] xmlValues){
+	public void setValue(String[] xmlPath, String value){
 		//intervalLock.lock();
 		try{
-			for(int j=0;j<xmlValues.length;j++)
+			for(int j=0;j<xmlPath.length;j++)
 			{
-				data.setValue(xmlValues[j]);
+				System.out.println("xmlValues: "+ xmlPath[j]); //DN DEBUG output
+				data.setValue(xmlPath[j], value);
 			}
 		}
 		finally{
@@ -231,10 +232,11 @@ public class ConnectionHandler extends Thread
 					response += "<Event Name=\""+val[0]+"\">\n" + data.getValues(val, false) + "\n</Event>";
 				}
 				else if(eventName.equals("SetValue")){ //20170221 JS: Added SetValue tag in parsing to handle possibility to set individual value				
-					String[] val = new String[]{nodes.item(i).getTextContent()};
-					setValue(val);
+					String[] key = new String[]{nodes.item(i).getTextContent()};
+					String val = (((Element) nodes.item(i)).getAttribute("Value"));					
+					setValue(key, val);
 					
-					response += "<Event Name=\""+val[0]+"\">\n" + data.getValues(val, false) + "\n</Event>";
+					response += "<Event Name=\""+key[0]+"\">\n" + data.getValues(key, false) + "\n</Event>";
 				}
 				else if(eventName.equals("GetUpdateInterval")){
 					response += "<Event Name=\"UpdateInterval\">\n" + String.valueOf(getUpdateInterval()) + "\n</Event>";

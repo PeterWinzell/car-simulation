@@ -702,6 +702,7 @@ public class Simulator extends SimulationBasics
 
     public static void main(String[] args) 
     {    
+    	System.out.println(System.getProperty("java.runtime.version"));
     	
     	/*// License library, list of codes returned from the function
     	String licenseCode0 = "ERROR_SUCCESS";
