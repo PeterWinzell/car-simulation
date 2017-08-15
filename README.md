@@ -16,4 +16,8 @@ The directory assets is not tracked in it self, instead assets.zip is used. To u
   ```
   eu.opends.settingsController.ConnectionHandler.parseXML 
   ``` 
- method. A setValue method was in the eu.opends.settingsContoller.APIData class.  In our example we have been using handbrake toggle and cruise control toggle signals.
+ method. A setValue method was added in the 
+ ``` 
+ eu.opends.settingsContoller.APIData
+ ```
+ class.  In our example we have been using handbrake toggle and cruise control toggle signals.
