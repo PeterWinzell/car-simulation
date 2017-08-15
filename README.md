@@ -12,4 +12,8 @@ The directory assets is not tracked in it self, instead assets.zip is used. To u
  
  **Set**
  
-  Modifications to openDS has been made to support Set, i.e setting certain selected car signals. We have added "SetValue" as part of the xml command parsing and are listening for this in the eu.opends.settingsController.ConnectionHandler.parseXML method. A setValue method was in the eu.opends.settingsContoller.APIData class.  In our example we have been using handbrake toggle and cruise control toggle signals.
+  Modifications to openDS has been made to support Set, i.e setting certain selected car signals. We have added "SetValue" as part of the xml command parsing and are listening for this in the 
+  ```
+  eu.opends.settingsController.ConnectionHandler.parseXML 
+  ``` 
+ method. A setValue method was in the eu.opends.settingsContoller.APIData class.  In our example we have been using handbrake toggle and cruise control toggle signals.
